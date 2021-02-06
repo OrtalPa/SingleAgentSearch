@@ -84,7 +84,7 @@ public class AStarEarly implements ISearch
                             solution = Vn;
                             searchParams.emptyOpenLessThanU(U);
                             amountOfTimesInSol++;
-                            System.out.println("hola");
+//                            System.out.println("hola");
                             // empty open from all nodes with V == U
                         }
                     }

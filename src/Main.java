@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main
 {
-	private static String CSV_FILE_NAME = "C:\\uni\\SingleAgentSearch\\NPuzzle.csv";
+	private static String CSV_FILE_NAME = "NPuzzle.csv";
 	private static String INSTANCE_PATH_TOP_SPIN = "C:\\uni\\SingleAgentSearch\\instances\\topSpin10\\";
 	private static String INSTANCE_PATH_NPuzzle = "C:\\uni\\SingleAgentSearch\\instances\\NPuzzle\\";
 	private static String FILE_NAME_TOP_SPIN = "topSpin";

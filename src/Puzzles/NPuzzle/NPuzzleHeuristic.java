@@ -28,11 +28,21 @@ public class NPuzzleHeuristic implements IHeuristic {
          */
         int sum = 0;
         int [][] puzzle = problemState._nPuzzle;
+        int dx;
+        int dy;
         for (int i = 0; i < puzzle.length; i++) {
             for (int j = 0; j < puzzle[i].length; j++) {
-                int dx = Math.abs(i - goalRow(puzzle[i][j], puzzle.length));
-                int dy = Math.abs(j - goalCol(puzzle[i][j], puzzle.length));
-                sum += (dx+dy);
+
+                if(puzzle[i][j]==0){
+                    dx = Math.abs(puzzle.length - i-1);
+                    dy = Math.abs(puzzle.length - j-1);
+                    sum += (dx + dy);
+                }
+                else {
+                    dx = Math.abs(i - goalRow(puzzle[i][j], puzzle.length));
+                    dy = Math.abs(j - goalCol(puzzle[i][j], puzzle.length));
+                    sum += (dx + dy);
+                }
             }
         }
         return sum;

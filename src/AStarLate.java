@@ -52,7 +52,7 @@ public class AStarLate implements ISearch
 		{
 			current = searchParams.getBest();
 			if (current.isGoal()){
-				System.out.println(current.toString());
+//				System.out.println(current.toString());
 				return current;
 			}
 			List<ASearchNode> neighbors = current.getNeighbors();
@@ -60,8 +60,9 @@ public class AStarLate implements ISearch
 			for (ASearchNode Vn : neighbors)
 			{
 				if ((!searchParams.isOpen(Vn) && !searchParams.isClosed(Vn))
-						|| searchParams.getPreviousG(Vn) > Vn.G())
-					searchParams.addToOpen(Vn);
+						|| searchParams.getPreviousG(Vn) > Vn.G()){
+					searchParams.addToOpen(Vn);}
+
 				/*if (searchParams.isClosed(Vn))
 					continue;
 

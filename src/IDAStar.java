@@ -57,7 +57,7 @@ public class IDAStar implements ISearch {
             if (!isInCurrentNodeToStartPath(current, Vn)){
                 double newCostLimit = depthSearch(solution, Vn, costLimit);
                 if (solution[0] != null) {
-                    System.out.println("newCostLimit");
+//                    System.out.println("newCostLimit");
                     return newCostLimit;
                 }
                 nextCostLimit = Math.min(nextCostLimit, newCostLimit);

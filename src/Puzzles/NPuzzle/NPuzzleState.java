@@ -102,7 +102,7 @@ public class NPuzzleState implements IPuzzleState {
         int index = 1;
         for(int[] row : _nPuzzle) {
             for(int cell : row){
-                if (cell != index && !(cell == 0 && index == 16))
+                if (cell != index && !(cell == 0 && index == row.length*row.length))
                     return false;
                 index++;
             }
