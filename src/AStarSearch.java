@@ -27,19 +27,27 @@ public class AStarSearch
 
 	public void initLists() 
 	{
+		if (openListHash != null)
+		{
+			// if one list is not null then all of them are not null
+			openListHash.clear();
+			openList.clear();
+			closedListHash.clear();
+			closedList.clear();
+		}
 		openList = new PriorityQueue<>(new Comparator<ASearchNode>() {
 		@Override
 		public int compare(ASearchNode o1, ASearchNode o2) {
-			double o1Weight = o1.H()+o1.G();
-			double o2Weight = o2.H()+o2.G();
-			if(o1Weight > o2Weight)
-				return 1;
-			else if(o2Weight > o1Weight)
-			    return -1;
-			else if (o1.H() > o2.H()){
-				return 1;
-			}
-			return -1;
+				double o1Weight = o1.H()+o1.G();
+				double o2Weight = o2.H()+o2.G();
+				if(o1Weight > o2Weight)
+					return 1;
+				else if(o2Weight > o1Weight)
+					return -1;
+				else if (o1.H() > o2.H()){
+					return 1;
+				}
+				return -1;
 			/*
 			else // if(o1Weight < o1Weight)
 				return -1;
@@ -56,8 +64,8 @@ public class AStarSearch
 			 return -1;
 			 */
 
-		}
-	});
+			}
+		});
 		openListHash = new HashMap<>();
 		closedListHash = new HashMap<>();
 		closedList = new HashSet<>();

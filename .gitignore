@@ -1,2 +1,8 @@
 # Project exclude paths
 /bin/
+/instances (2)/
+*.csv
+*.iml
+.metadata/
+.settings/
+.idea/

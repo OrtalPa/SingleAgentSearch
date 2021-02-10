@@ -24,7 +24,7 @@ public class IDAStar implements ISearch {
         return solution;
     }
 
-    private ASearchNode search(IPuzzleState problemState) {
+    private ASearchNode search_old(IPuzzleState problemState) {
         searchParams.initLists();
         ASearchNode Vs 		= searchParams.createSearchRoot(problemState);
         double costLimit = Vs.G()+Vs.H(); //F (G=0)
@@ -38,7 +38,7 @@ public class IDAStar implements ISearch {
         return solution[0];
     }
 
-    private double depthSearch(ASearchNode[] solution, ASearchNode current, double costLimit) {
+    private double depthSearch_old(ASearchNode[] solution, ASearchNode current, double costLimit) {
         double minCost = current.H() + current.G();
         if (minCost > costLimit){
             //System.out.println("pruned");
@@ -55,6 +55,55 @@ public class IDAStar implements ISearch {
         nodes++;
         for (ASearchNode Vn : neighbors) {
             if (!isInCurrentNodeToStartPath(current, Vn)){
+                double newCostLimit = depthSearch(solution, Vn, costLimit);
+                if (solution[0] != null) {
+//                    System.out.println("newCostLimit");
+                    return newCostLimit;
+                }
+                nextCostLimit = Math.min(nextCostLimit, newCostLimit);
+            }
+        }
+        //System.out.println("nextCostLimit");
+        return nextCostLimit;
+    }
+
+    private ASearchNode search(IPuzzleState problemState) {
+        ASearchNode Vs 		= searchParams.createSearchRoot(problemState);
+        double costLimit = Vs.G()+Vs.H(); //F (G=0)
+        ASearchNode[] solution = new ASearchNode[]{null};
+        while (costLimit != Double.MAX_VALUE){
+            searchParams.initLists();
+            costLimit = depthSearch(solution, Vs, costLimit);
+            if (solution[0] != null){
+                return solution[0];
+            }
+        }
+        return solution[0];
+    }
+
+    private double depthSearch(ASearchNode[] solution, ASearchNode current, double costLimit) {
+        double minCost = current.H() + current.G();
+        if (minCost > costLimit){
+            //System.out.println("pruned");
+            if (current.isGoal()){
+                solFound++;
+                solution[0] = current;
+            }
+            return minCost;
+        }
+        if (current.isGoal()){
+            solFound++;
+            solution[0] = current;
+            return costLimit;
+        }
+        double nextCostLimit = Double.MAX_VALUE;
+        searchParams.addToClosed(current);
+        List<ASearchNode> neighbors = current.getNeighbors();
+        nodes++;
+        for (ASearchNode Vn : neighbors) {
+            //if (!isInCurrentNodeToStartPath(current, Vn))
+            if (!searchParams.isClosed(Vn))
+            {
                 double newCostLimit = depthSearch(solution, Vn, costLimit);
                 if (solution[0] != null) {
 //                    System.out.println("newCostLimit");
