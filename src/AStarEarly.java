@@ -26,6 +26,7 @@ public class AStarEarly implements ISearch
     {
         amountOfNodesDeveloped = 0;
         amountOfTimesInSol = 0;
+        duplicateNodes = 0;
         IPuzzleState 		problemState	= problem.StartState();
         ASearchNode				goal			= search(problemState);
         List<IMove>	solution		= goalNodeToSolutionPath(goal);

@@ -8,8 +8,8 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 	public double getHeuristic(IPuzzleState problemState)
 	{
 		if  (problemState instanceof TopSpinPuzzleState){
-			//return swapHeuristic((TopSpinPuzzleState) problemState);
-			return swapAndMoveHeuristic((TopSpinPuzzleState) problemState);
+			return swapHeuristic((TopSpinPuzzleState) problemState);
+			//return swapAndMoveHeuristic((TopSpinPuzzleState) problemState);
 		}
 		return 0;
 	}
@@ -23,7 +23,7 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 		// count the distance of 0 from the beginning
 		for (int j = 0; j < current_state.length; j++) {
 			if (current_state[j] == 0){
-				distanceOfZero = Math.min(j, current_state.length - j);
+				distanceOfZero = Math.min(j, current_state.length -1 - j);
 				break;
 			}
 		}
@@ -45,7 +45,7 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 				couples++;
 			}
 		}
-		return couples/2;
+		return couples/2 + distanceOfZero/2;
 	}
 
 	/**
