@@ -1,25 +1,24 @@
 import Puzzles.IMove;
 import Puzzles.IPuzzleState;
-import Puzzles.NPuzzle.NPuzzleState;
-import Puzzles.TopSpinPuzzle.TopSpinPuzzleMove;
-import Puzzles.TopSpinPuzzle.TopSpinPuzzleState;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 abstract public class ASearchNode 
 {
 	ASearchNode			_prev;
 	IPuzzleState _currentProblemState;
-	
+	HashSet<ASearchNode> _previousNodesInPath;
+
 	public List<ASearchNode> getNeighbors() 
 	{
-		List<ASearchNode> 	neighbors = null;
-		List<IPuzzleState> neighborStates = null;
+		List<ASearchNode> 	neighbors;
+		List<IPuzzleState> neighborStates;
 		try
 		{
-			/*List<ASearchNode> 	*/neighbors 			= new ArrayList<ASearchNode>();
-			/*List<IPuzzleState> */neighborStates = _currentProblemState.getNeighborStates();
+			neighbors 			= new ArrayList<>();
+			neighborStates = _currentProblemState.getNeighborStates();
 
 			for (IPuzzleState state : neighborStates)
 			{
@@ -32,18 +31,32 @@ abstract public class ASearchNode
 			System.out.println("ex");
 			return null;
 		}
-
 	}
 	
 	public boolean isGoal()
 	{
 		return _currentProblemState.isGoalState();
 	}
+
+	public boolean isNodeInPath(ASearchNode node){
+		if (_previousNodesInPath != null){
+			return _previousNodesInPath.contains(node);
+		}
+		return false;
+	}
+
+	public void addToPath(ASearchNode node){
+		if (_previousNodesInPath != null){
+			_previousNodesInPath.add(node);
+		}
+	}
 	
 	public IMove getLastMove()
 	{
 		return _currentProblemState.getStateLastMove();
 	}
+
+
 	
 	@Override
 	public boolean equals

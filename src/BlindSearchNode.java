@@ -1,5 +1,6 @@
 import Puzzles.IPuzzleState;
-import Puzzles.TopSpinPuzzle.TopSpinPuzzleState;
+
+import java.util.HashSet;
 
 public class BlindSearchNode extends ASearchNode
 {
@@ -12,6 +13,7 @@ public class BlindSearchNode extends ASearchNode
 		IPuzzleState currentProblemState
 	) 
 	{
+		_previousNodesInPath = new HashSet<>();
 		_prev					= null;
 		_currentProblemState 	= currentProblemState;
 		_g 						= 0;
@@ -26,6 +28,7 @@ public class BlindSearchNode extends ASearchNode
 		int					depth
 	) 
 	{
+		_previousNodesInPath = new HashSet<>();
 		_prev					= prev;
 		_currentProblemState 	= currentProblemState;
 		_g 						= g;

@@ -68,11 +68,11 @@ public class IDAStar implements ISearch {
     }
 
     private ASearchNode search(IPuzzleState problemState) {
+        searchParams.initLists();
         ASearchNode Vs 		= searchParams.createSearchRoot(problemState);
         double costLimit = Vs.G()+Vs.H(); //F (G=0)
         ASearchNode[] solution = new ASearchNode[]{null};
         while (costLimit != Double.MAX_VALUE){
-            searchParams.initLists();
             costLimit = depthSearch(solution, Vs, costLimit);
             if (solution[0] != null){
                 return solution[0];
@@ -101,18 +101,16 @@ public class IDAStar implements ISearch {
         List<ASearchNode> neighbors = current.getNeighbors();
         documentNode(current);
         for (ASearchNode Vn : neighbors) {
-            //if (!isInCurrentNodeToStartPath(current, Vn))
-            if (!searchParams.isClosed(Vn))
+            Vn.addToPath(current);
+            if (!isInCurrentNodeToStartPath(current, Vn))
             {
                 double newCostLimit = depthSearch(solution, Vn, costLimit);
                 if (solution[0] != null) {
-//                    System.out.println("newCostLimit");
                     return newCostLimit;
                 }
                 nextCostLimit = Math.min(nextCostLimit, newCostLimit);
             }
         }
-        //System.out.println("nextCostLimit");
         return nextCostLimit;
     }
 
@@ -168,6 +166,11 @@ public class IDAStar implements ISearch {
     }
 
     private boolean isInCurrentNodeToStartPath(ASearchNode current, ASearchNode isInPath)
+    {
+        return current.isNodeInPath(isInPath);
+    }
+
+    private boolean isInCurrentNodeToStartPath_NotEfficient(ASearchNode current, ASearchNode isInPath)
     {
         if (current == null)
             return false;
