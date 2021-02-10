@@ -10,6 +10,7 @@ public class IDAStar implements ISearch {
     private int solFound;
     private AStarSearch searchParams;
     private int duplicateNodes;
+    private double maxMemoryUsage;
 
     public IDAStar() {
         searchParams = new AStarSearch();
@@ -17,8 +18,6 @@ public class IDAStar implements ISearch {
 
     @Override
     public List<IMove> solve(IPuzzle problem) {
-        amountOfNodesDeveloped = 0;
-        solFound = 0;
         IPuzzleState problemState	= problem.StartState();
         ASearchNode goal			= search(problemState);
         List<IMove>	solution		= goalNodeToSolutionPath(goal);
@@ -137,6 +136,11 @@ public class IDAStar implements ISearch {
         return duplicateNodes;
     }
 
+    @Override
+    public double maxMemoryUsage() {
+        return maxMemoryUsage * Math.pow(10,-6);
+    }
+
     private List<IMove> goalNodeToSolutionPath(ASearchNode goal)
     {
         if (goal == null)
@@ -158,6 +162,9 @@ public class IDAStar implements ISearch {
             duplicateNodes++;
         }
         searchParams.addToVisited(current);
+        long heapSize = Runtime.getRuntime().totalMemory();
+        if (heapSize > maxMemoryUsage)
+            maxMemoryUsage = heapSize;
     }
 
     private boolean isInCurrentNodeToStartPath(ASearchNode current, ASearchNode isInPath)

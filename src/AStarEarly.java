@@ -15,6 +15,7 @@ public class AStarEarly implements ISearch
     private int amountOfNodesDeveloped;
     private int amountOfTimesInSol;
     private int duplicateNodes;
+    private double maxMemoryUsage;
 
     public AStarEarly(){
         searchParams = new AStarSearch();
@@ -23,8 +24,6 @@ public class AStarEarly implements ISearch
 
     public List<IMove> solve (IPuzzle problem)
     {
-        amountOfNodesDeveloped = 0;
-        amountOfTimesInSol = 0;
         IPuzzleState 		problemState	= problem.StartState();
         ASearchNode				goal			= search(problemState);
         List<IMove>	solution		= goalNodeToSolutionPath(goal);
@@ -49,6 +48,11 @@ public class AStarEarly implements ISearch
     @Override
     public int getDuplicateNodes() {
         return duplicateNodes;
+    }
+
+    @Override
+    public double maxMemoryUsage() {
+        return maxMemoryUsage * Math.pow(10,-6);
     }
 
     private	ASearchNode search(IPuzzleState problemState)
@@ -111,6 +115,9 @@ public class AStarEarly implements ISearch
             duplicateNodes++;
         }
         searchParams.addToVisited(current);
+        long heapSize = Runtime.getRuntime().totalMemory();
+        if (heapSize > maxMemoryUsage)
+            maxMemoryUsage = heapSize;
     }
 
     private List<IMove> goalNodeToSolutionPath
