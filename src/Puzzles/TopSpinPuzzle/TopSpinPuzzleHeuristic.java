@@ -8,8 +8,8 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 	public double getHeuristic(IPuzzleState problemState)
 	{
 		if  (problemState instanceof TopSpinPuzzleState){
-			return swapHeuristic((TopSpinPuzzleState) problemState);
-			//return swapAndMoveHeuristic(problemState);
+			//return swapHeuristic((TopSpinPuzzleState) problemState);
+			return swapAndMoveHeuristic((TopSpinPuzzleState) problemState);
 		}
 		return 0;
 	}
@@ -19,7 +19,7 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 	 */
 	private double swapAndMoveHeuristic(TopSpinPuzzleState problemState){
 		int[] current_state = problemState._TopSpinPuzzle;
-		int distanceOfZero = 0;
+		double  distanceOfZero = 0;
 		// count the distance of 0 from the beginning
 		for (int j = 0; j < current_state.length; j++) {
 			if (current_state[j] == 0){
@@ -29,14 +29,12 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 		}
 
 		double couples = 0;
-		int min_weighted = 0;
 		for(int i=0; i < current_state.length-1;i++) {
 			//find the couples that have to be flipped
 			if( Math.abs(current_state[i] - current_state[i+1]) > 1){
 				//found a couple, has to be different than 0&9
 				if(!(current_state[i] ==0 && current_state[i+1] ==9 ) && !(current_state[i] ==9 && current_state[i+1] ==0 )) {
 					couples++;
-					min_weighted += Math.min(current_state[i], current_state[i + 1]);
 					i++;
 				}
 			}
@@ -45,11 +43,9 @@ public class TopSpinPuzzleHeuristic implements IHeuristic
 		if(Math.abs(current_state[0] - current_state[current_state.length-1]) > 1){
 			if(!(current_state[0] ==0 && current_state[current_state.length-1] ==9 ) && !(current_state[0] ==9 && current_state[current_state.length-1] ==0 )) {
 				couples++;
-				min_weighted += Math.min(current_state[0], current_state[current_state.length-1]);
 			}
 		}
-		//return (couples/2)*min_weighted;
-		return couples/2 + distanceOfZero;
+		return couples/2;
 	}
 
 	/**
