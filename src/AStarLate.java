@@ -12,6 +12,7 @@ public class AStarLate implements ISearch
 {
 	private AStarSearch searchParams;
 	private int amountOfNodesDeveloped;
+	private int duplicateNodes;
 
 	public AStarLate(){
 		searchParams = new AStarSearch();
@@ -41,6 +42,11 @@ public class AStarLate implements ISearch
 		return 1;
 	}
 
+	@Override
+	public int getDuplicateNodes() {
+		return duplicateNodes;
+	}
+
 	private	ASearchNode search(IPuzzleState problemState)
 	{
 		searchParams.initLists();
@@ -56,7 +62,7 @@ public class AStarLate implements ISearch
 				return current;
 			}
 			List<ASearchNode> neighbors = current.getNeighbors();
-			amountOfNodesDeveloped++;
+			documentNode(current);
 			for (ASearchNode Vn : neighbors)
 			{
 				if ((!searchParams.isOpen(Vn) && !searchParams.isClosed(Vn))
@@ -73,7 +79,15 @@ public class AStarLate implements ISearch
 		}
 		return null;
 	}
-	
+
+	private void documentNode(ASearchNode current) {
+		amountOfNodesDeveloped++;
+		if (searchParams.isVisited(current)){
+			duplicateNodes++;
+		}
+		searchParams.addToVisited(current);
+	}
+
 	private List<IMove> goalNodeToSolutionPath(ASearchNode goal)
 	{
 		if (goal == null)

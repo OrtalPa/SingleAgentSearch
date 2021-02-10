@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class IDAStar implements ISearch {
-    private int nodes;
+    private int amountOfNodesDeveloped;
     private int solFound;
     private AStarSearch searchParams;
+    private int duplicateNodes;
 
     public IDAStar() {
         searchParams = new AStarSearch();
@@ -16,7 +17,7 @@ public class IDAStar implements ISearch {
 
     @Override
     public List<IMove> solve(IPuzzle problem) {
-        nodes = 0;
+        amountOfNodesDeveloped = 0;
         solFound = 0;
         IPuzzleState problemState	= problem.StartState();
         ASearchNode goal			= search(problemState);
@@ -52,7 +53,7 @@ public class IDAStar implements ISearch {
         }
         double nextCostLimit = Double.MAX_VALUE;
         List<ASearchNode> neighbors = current.getNeighbors();
-        nodes++;
+        amountOfNodesDeveloped++;
         for (ASearchNode Vn : neighbors) {
             if (!isInCurrentNodeToStartPath(current, Vn)){
                 double newCostLimit = depthSearch(solution, Vn, costLimit);
@@ -99,7 +100,7 @@ public class IDAStar implements ISearch {
         double nextCostLimit = Double.MAX_VALUE;
         searchParams.addToClosed(current);
         List<ASearchNode> neighbors = current.getNeighbors();
-        nodes++;
+        documentNode(current);
         for (ASearchNode Vn : neighbors) {
             //if (!isInCurrentNodeToStartPath(current, Vn))
             if (!searchParams.isClosed(Vn))
@@ -123,12 +124,17 @@ public class IDAStar implements ISearch {
 
     @Override
     public int amountOfNodesDeveloped() {
-        return nodes;
+        return amountOfNodesDeveloped;
     }
 
     @Override
     public int amountOfTimesInSol() {
         return solFound;
+    }
+
+    @Override
+    public int getDuplicateNodes() {
+        return duplicateNodes;
     }
 
     private List<IMove> goalNodeToSolutionPath(ASearchNode goal)
@@ -144,6 +150,14 @@ public class IDAStar implements ISearch {
         }
         Collections.reverse(solutionPath);
         return solutionPath;
+    }
+
+    private void documentNode(ASearchNode current) {
+        amountOfNodesDeveloped++;
+        if (searchParams.isVisited(current)){
+            duplicateNodes++;
+        }
+        searchParams.addToVisited(current);
     }
 
     private boolean isInCurrentNodeToStartPath(ASearchNode current, ASearchNode isInPath)

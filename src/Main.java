@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main
 {
-	private static String CSV_FILE_NAME = "10_02_06.csv";
+	private static String CSV_FILE_NAME = "10_02_07.csv";
 	private static String INSTANCE_PATH_TOP_SPIN = "C:\\uni\\SingleAgentSearch\\instances\\topSpin10\\";
 	private static String INSTANCE_PATH_NPuzzle = "C:\\uni\\SingleAgentSearch\\instances\\NPuzzle\\";
 	private static String FILE_NAME_TOP_SPIN = "topSpin";
@@ -66,7 +66,7 @@ public class Main
 	) 
 	{
 		try {
-			writeToCsv(new String[]{"Instance", "Solver", "Nodes", "Cost", "Moves", "Time", "hola"});
+			writeToCsv(new String[]{"Instance", "Solver", "Nodes", "Cost", "Moves", "Time", "hola", "duplicate"});
 			long totalTime = 0;
 			List<String> instances = getInstances(instancesType);
 			for (String instance : instances)
@@ -93,7 +93,7 @@ public class Main
 							System.out.println(solution);
 							totalTime += (finishTime - startTime) / 1000000.0;
 							String name = instance.substring(INSTANCE_PATH_NPuzzle.length()).split("\\.")[0];
-							writeToCsv(new String[]{name, solver.getSolverName(), solver.amountOfNodesDeveloped() + "", cost + "", solution.size() + "", (finishTime - startTime) / 1000000.0 + "", solver.amountOfTimesInSol() + ""});
+							writeToCsv(new String[]{name, solver.getSolverName(), solver.amountOfNodesDeveloped() + "", cost + "", solution.size() + "", (finishTime - startTime) / 1000000.0 + "", solver.amountOfTimesInSol() + "", solver.getDuplicateNodes()+""});
 						} else                // invalid solution
 							System.out.println("Invalid solution.");
 					}

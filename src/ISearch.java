@@ -7,4 +7,5 @@ public interface ISearch {
     String getSolverName();
     int amountOfNodesDeveloped();
     int amountOfTimesInSol();
+    int getDuplicateNodes();
 }

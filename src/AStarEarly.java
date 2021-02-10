@@ -14,6 +14,7 @@ public class AStarEarly implements ISearch
     private AStarSearch searchParams;
     private int amountOfNodesDeveloped;
     private int amountOfTimesInSol;
+    private int duplicateNodes;
 
     public AStarEarly(){
         searchParams = new AStarSearch();
@@ -45,6 +46,11 @@ public class AStarEarly implements ISearch
         return amountOfTimesInSol;
     }
 
+    @Override
+    public int getDuplicateNodes() {
+        return duplicateNodes;
+    }
+
     private	ASearchNode search(IPuzzleState problemState)
     {
         searchParams.initLists();
@@ -63,7 +69,7 @@ public class AStarEarly implements ISearch
             current = searchParams.getBest();
             searchParams.addToClosed(current);
             List<ASearchNode> neighbors = current.getNeighbors();
-            amountOfNodesDeveloped++;
+            documentNode(current);
             for (ASearchNode Vn : neighbors)
             {
                 /*if (searchParams.isClosed(Vn) || searchParams.isOpen(Vn)){
@@ -97,6 +103,14 @@ public class AStarEarly implements ISearch
             }
         }
         return solution;
+    }
+
+    private void documentNode(ASearchNode current) {
+        amountOfNodesDeveloped++;
+        if (searchParams.isVisited(current)){
+            duplicateNodes++;
+        }
+        searchParams.addToVisited(current);
     }
 
     private List<IMove> goalNodeToSolutionPath

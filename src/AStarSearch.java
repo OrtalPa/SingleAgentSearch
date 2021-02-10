@@ -13,6 +13,7 @@ public class AStarSearch
 	private HashMap<ASearchNode,ASearchNode> closedListHash;
 	private HashSet<ASearchNode> closedList;
 	private PriorityQueue<ASearchNode> openList;
+	private HashSet<ASearchNode> visitedForDuplicateDetection;
 	private double Fmin;
 
 	public double Fmin() {
@@ -69,7 +70,21 @@ public class AStarSearch
 		openListHash = new HashMap<>();
 		closedListHash = new HashMap<>();
 		closedList = new HashSet<>();
+		if (visitedForDuplicateDetection == null){
+			// Initialize only in the first time
+			visitedForDuplicateDetection = new HashSet<>();
+		}
 		Fmin = Double.MAX_VALUE;
+	}
+
+	public boolean isVisited(ASearchNode node)
+	{
+		return visitedForDuplicateDetection.contains(node);
+	}
+
+	public void addToVisited(ASearchNode node)
+	{
+		visitedForDuplicateDetection.add(node);
 	}
 
 	public ASearchNode getOpen(ASearchNode node)
