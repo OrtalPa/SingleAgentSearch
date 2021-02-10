@@ -20,6 +20,7 @@ public class IDAStar implements ISearch {
     public List<IMove> solve(IPuzzle problem) {
         amountOfNodesDeveloped = 0;
         solFound = 0;
+        duplicateNodes = 0;
         IPuzzleState problemState	= problem.StartState();
         ASearchNode goal			= search(problemState);
         List<IMove>	solution		= goalNodeToSolutionPath(goal);
