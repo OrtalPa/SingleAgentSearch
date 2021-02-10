@@ -88,11 +88,11 @@ public class TopSpinPuzzleState implements IPuzzleState
 	
 	public double getStateLastMoveCost() 
 	{
-		if (_lastMove != null){
+		/*if (_lastMove != null){
 			return 1;
 		}
-		return 0;
-		/*if (	_lastMove == TopSpinPuzzleMove.SWAP)
+		return 0;*/
+		if (	_lastMove == TopSpinPuzzleMove.SWAP)
 		{
 			int startCellIndex 	= _problem._size / 2 - 2;
 			int endCellIndex 	= startCellIndex + 3;
@@ -103,9 +103,9 @@ public class TopSpinPuzzleState implements IPuzzleState
 		}
 		if (	_lastMove == TopSpinPuzzleMove.RIGHT	||
 				_lastMove == TopSpinPuzzleMove.LEFT)
-			return 1;
+			return 0;
 		else
-			return 0;*/
+			return 0;
 	}
 
 	public IPuzzleState getChildState(IMove topSpinPuzzleMove)
